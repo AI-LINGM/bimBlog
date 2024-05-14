@@ -1,7 +1,8 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect
 
 from . import models
-from .forms import CommentForm, CreateBlogPostForm
+from .forms import CommentForm, CreateBlogPostForm, SearchForm
 from .models import BlogPost
 
 
@@ -43,3 +44,23 @@ def create_blog_post(request):
         form = CreateBlogPostForm()
     context = {'form': form}
     return render(request, 'blog/create_post.html', context)
+
+
+def search(request):
+    posts = ""
+
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            author = form.cleaned_data['author']
+            category = form.cleaned_data['category']
+            posts = BlogPost.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+            if author:
+                posts = posts.filter(author=author)
+            if category:
+                posts = posts.filter(category=category)
+    else:
+        form = SearchForm()
+    context = {'form': form, 'posts': posts}
+    return render(request, 'blog/search.html', context)
