@@ -2,5 +2,9 @@
 {% block content %}
 
 <h2>Este es el Home</h2>
-
+<li>
+    {% for post in posts %}
+    <a>{{post.title}}</a>
+    {% endfor %}
+</li>
 {% endblock %}
