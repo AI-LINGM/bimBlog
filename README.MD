@@ -299,6 +299,52 @@ def create_blog_post(request):
 
 ##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/5)
 
+#### 📺 Create Search View.
+
+Let's implement a search view, just a simple search by content, or author or even category:
+
+##### forms.py
+
+```python
+class SearchForm(forms.Form):
+  query = forms.CharField(label="Search", max_length=100, required=False)
+  author = forms.ModelChoiceField(label="Author", queryset=Author.objects.all(), required=False)
+  category = forms.ModelChoiceField(label="Category", queryset=Category.objects.all(), required=False)
+```
+
+##### views.py
+
+```python
+def search(request):
+  posts = ""
+
+  if request.method == 'POST':
+    form = SearchForm(request.POST)
+    if form.is_valid():
+      query = form.cleaned_data['query']
+      author = form.cleaned_data['author']
+      category = form.cleaned_data['category']
+      posts = BlogPost.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+      if author:
+        posts = posts.filter(author=author)
+      if category:
+        posts = posts.filter(category=category)
+  else:
+    form = SearchForm()
+  context = {'form': form, 'posts': posts}
+  return render(request, 'blog/search.html', context)
+```
+
+Now we can see some examples, like not founding anything, searching for title or even filter by author or category.
+
+<img width="452" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/de395898-ad12-45e6-8c4d-ed20ab18e944">
+
+<img width="471" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/bed7f7b4-d916-4948-8e78-0cf3401429a1">
+
+<img width="471" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/786b790c-fd26-4159-9d13-854c137f062d">
+
+##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/6
+
 ## Future Improvements
 
 In the next deliver, this project will link the author of a blog post with an auth user.
