@@ -297,6 +297,8 @@ def create_blog_post(request):
 
 <img width="452" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/58fba659-fdcc-4407-8b41-18c286f033c5">
 
+##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/5)
+
 ## Future Improvements
 
 In the next deliver, this project will link the author of a blog post with an auth user.
