@@ -15,7 +15,9 @@ This is a blog that contains about BIM.
 
 First of all, start the bimBlog. So the command is the following:
 
-`django-admin startproject bimBlog`
+`django-admin startproject bimblog .`
+
+*Please remember to add the ending dot*
 
 Then, we will create the main app, in this case will be the blog
 
