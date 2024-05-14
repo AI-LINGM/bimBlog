@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+
+<h2>Este es el Home</h2>
+
+<ul>
+    {% for post in posts %}
+
+    <li>
+        <a href="{% url 'post_details' post.id %}">{{ post.title }}</a>
+        <button onclick="window.location.href='{% url 'update_post' post.id %}'" type="button">Update</button>
+        <button onclick="window.location.href='{% url 'delete_post' post.id %}'" type="button"
+                style="background-color: red; color: white;">
+            Delete
+        </button>
+
+        <p>{{ post.body|truncatechars:200}}</p>
+
+    </li>
+    {% endfor %}
+
+    <button onclick="location.href={% url 'create_post' %}" type="button">Create a New Post</button>
+    <button onclick="location.href={% url 'search' %}" type="button">Search</button>
+
+</ul>
+{% endblock %}
