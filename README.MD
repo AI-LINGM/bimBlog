@@ -384,6 +384,33 @@ There is a minimal title error in the first entry, it says `Primer Blog De BimBl
 
 ##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/7)
 
+#### 📺 Delete View.
+
+Finally, we should be able to delete a post. So let's add a big old red button to delete a post (also we add a post to
+delete).
+
+##### views.py
+
+```python
+def delete_post(request, pk):
+  post = get_object_or_404(BlogPost, pk=pk)
+  if request.method == 'POST':
+    post.delete()
+    return redirect("home")
+  context = {'post': post}
+  return render(request, 'blog/delete_post.html', context)
+```
+
+Let's delete stuff:
+
+<img width="476" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/26065594-d13e-4b8f-9945-d375e4a397d4">
+
+<img width="476" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/89e38dde-019c-4bdf-a85e-1102fccc31b8">
+
+<img width="476" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/17db904f-c870-4006-a4f2-bd10417735bd">
+
+##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/8)
+
 ## Future Improvements
 
 In the next deliver, this project will link the author of a blog post with an auth user.
