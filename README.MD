@@ -299,6 +299,7 @@ def create_blog_post(request):
 
 ##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/5)
 
+
 #### 📺 Create Search View.
 
 Let's implement a search view, just a simple search by content, or author or even category:
@@ -345,11 +346,49 @@ Now we can see some examples, like not founding anything, searching for title or
 
 ##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/6)
 
+#### 📺 Update View.
+
+We want to update the blog within the web, and not relying only on the admin site.
+
+##### forms.py
+
+```python
+class UpdateBlogPostForm(forms.ModelForm):
+  class Meta:
+    model = BlogPost
+    fields = ['title', 'body', 'category']
+```
+
+##### views.py
+
+```python
+def update_post(request, pk):
+  post = get_object_or_404(BlogPost, pk=pk)
+  if request.method == 'POST':
+    form = UpdateBlogPostForm(request.POST, instance=post)
+    if form.is_valid():
+      form.save()
+      return redirect('post_details', pk=post.pk)
+  else:
+    form = UpdateBlogPostForm(instance=post)
+  context = {'form': form, 'post': post}
+  return render(request, 'blog/update_post.html', context)
+```
+
+There is a minimal title error in the first entry, it says `Primer Blog De BimBlog` when should say:
+`Primera entrada en BimBlog` after update, it will redirect to the detail. Let's change it:
+<img width="471" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/58418f5c-1457-4e1b-979b-4ca999921399">
+
+<img width="476" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/43698579-41b2-48f5-a3e8-09dd1dfd3b2f">
+<img width="476" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/c034fba1-fc8f-467f-bf5c-7473defa8f32">
+##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/7)
+
 ## Future Improvements
 
 In the next deliver, this project will link the author of a blog post with an auth user.
 Hopefully, registered user can Comment with their name.
 Eventually, we want that any registered user can create post.
-Only them should create post. For now, it will be open for everyone
+Only them should create post. For now, it will be open for everyone.
+Add images to post-entry, as a parameter.
 
 ## Known issues
