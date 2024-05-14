@@ -381,6 +381,7 @@ There is a minimal title error in the first entry, it says `Primer Blog De BimBl
 
 <img width="476" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/43698579-41b2-48f5-a3e8-09dd1dfd3b2f">
 <img width="476" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/c034fba1-fc8f-467f-bf5c-7473defa8f32">
+
 ##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/7)
 
 ## Future Improvements
