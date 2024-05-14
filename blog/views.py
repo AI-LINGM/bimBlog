@@ -77,3 +77,12 @@ def update_post(request, pk):
         form = UpdateBlogPostForm(instance=post)
     context = {'form': form, 'post': post}
     return render(request, 'blog/update_post.html', context)
+
+
+def delete_post(request, pk):
+    post = get_object_or_404(BlogPost, pk=pk)
+    if request.method == 'POST':
+        post.delete()
+        return redirect("home")
+    context = {'post': post}
+    return render(request, 'blog/delete_post.html', context)
