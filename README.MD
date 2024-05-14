@@ -343,7 +343,7 @@ Now we can see some examples, like not founding anything, searching for title or
 
 <img width="471" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/786b790c-fd26-4159-9d13-854c137f062d">
 
-##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/6
+##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/6)
 
 ## Future Improvements
 
