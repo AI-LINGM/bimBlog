@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h1>{{ post.title }}</h1>
+<p>{{ post.body }}</p>
+<p>Autor: {{ post.author }}</p>
+<p>Categoría: {{ post.category.first }}</p>
+
+
+<h2>Comentarios</h2>
+
+{% if comments %}
+<ul>
+    {% for comment in comments %}
+    <li>
+        <strong>{{ comment.author }}:</strong> {{ comment.body }}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay comentarios para esta entrada.</p>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar comentario</button>
+</form>
+
+{% endblock %}

@@ -161,14 +161,73 @@ index.html
   {% endfor %}
 </li>
 {% endblock %}
-
 ```
 
 ##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/3)
 
+<img width="466" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/e3425e3a-1944-4f30-a541-92dabb833d29">
+
+#### 📺 Creating the Detail View with a first form.
+
+If we have a blog, we should be able to see the details of the entry, and any respectable blog should have a
+section comment. Let's do a comment form:
+
+```python
+class CommentForm(forms.ModelForm):
+  class Meta:
+    model = Comment
+    fields = ['author', 'body']
+```
+
+Let's define a view to see the detail of the blog:
+
+**Views.py**
+
+```python
+def blog_post_detail(request, pk):
+  post = BlogPost.objects.get(pk=pk)
+
+  if request.method == 'POST':
+    form = CommentForm(request.POST)
+    if form.is_valid():
+      comment = form.save(commit=False)
+      comment.post = post
+      comment.save()
+
+  else:
+    form = CommentForm()
+
+  context = {
+    'post': post,
+    'form': form,
+  }
+  return render(request, "blog/post_details.html", context)
+```
+
+**index.html**
+
+```html
+      {% for post in posts %}
+
+<li>
+  <a href="{% url 'post_details' post.id %}">{{ post.title }}</a>
+  <p>{{ post.excerpt }}</p>
+
+</li>
+{% endfor %}
+```
+
+##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/4)
+
+Home
+<img width="466" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/a9a3ea60-ea9f-4bdb-bc15-3945a1ff72ea">
+
+Details:
+<img width="500" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/ed3074ed-216c-434a-88eb-a8cb3d40e5c9">
 
 ## Future Improvements
 
 In the next deliver, this project will link the author of a blog post with an auth user.
+Hopefully, registered user can Comment with their name.
 
 ## Known issues
