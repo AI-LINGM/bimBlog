@@ -76,6 +76,99 @@ from django.shortcuts import render
 def home(request):
     return render(request, "blog/index.html")
 ```
+
+check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/2)
+
+#### 📐  Adding Models
+
+For now, it will have at least 4 Main models:
+1- The Author
+2- The BlogPost
+3- Comments.
+4 - Category
+
+It's something like this:
+
+```python
+from django.db import models
+
+
+class Author(models.Model):
+  # some params
+  pass
+
+
+class Category(models.Model):
+  name = models.CharField(max_length=255)
+
+
+class Comment(models.Model):
+  # some params
+  post = models.ForeignKey("BlogPost", on_delete=models.CASCADE)
+
+
+class BlogPost(models.Model):
+  # some params
+  category = models.ManyToManyField(Category)
+  comments = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comments', blank=True, null=True)
+```
+
+After adding some model, the next two steps are:
+
+`python manage.py makemigrations`
+
+`python manage.py migrate`
+
+But, please do not forget to add all the models in the `admin.py` file like this:
+
+```python
+from django.contrib import admin
+from blog.models import Author, Category, Comment, BlogPost
+
+admin.site.register(Author)
+admin.site.register(Category)
+admin.site.register(Comment)
+admin.site.register(BlogPost)
+```
+
+And of course, If we want to manage our data, we need to be an 💸ADMIN💸, so let's do it!
+
+`python manage.py createsuperuser`
+
+Then we add an author, a category, and a blogpost in the admin panel, to be shown in the home as a list:
+views.py
+
+```python
+def home(request):
+  posts = models.BlogPost.objects.all()
+  context = {
+    'posts': posts,
+  }
+  return render(request, "blog/index.html", context)
+
+```
+
+index.html
+
+```html
+{% extends 'blog/base.html' %}
+{% block content %}
+
+<h2>Este es el Home</h2>
+<li>
+  {% for post in posts %}
+  <a>{{post.title}}</a>
+  {% endfor %}
+</li>
+{% endblock %}
+
+```
+
+##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/3)
+
+
 ## Future Improvements
+
+In the next deliver, this project will link the author of a blog post with an auth user.
 
 ## Known issues
