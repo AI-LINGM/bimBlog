@@ -81,7 +81,7 @@ check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/2)
 
 #### 📐  Adding Models
 
-For now, it will have at least 3 Main models:
+For now, it will have at least 4 Main models:
 1- The Author
 2- The BlogPost
 3- Comments.
@@ -163,6 +163,8 @@ index.html
 {% endblock %}
 
 ```
+
+##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/3)
 
 
 ## Future Improvements
