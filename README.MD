@@ -9,6 +9,28 @@ This is a blog that contains about BIM.
 
 ## Technical Description
 
+### TL;DR
+
+This blog contains the following routes/crud operations:
+
+- Create Blog ==> `/create_post/`==> **CRUD : CREATE**
+- Main or index ==> ` `         ==> **CRUD : READ**
+- Search ==> ` /search/ `       ==> **CRUD : READ**
+- Details ==> `/post/details/{}`==> **CRUD : READ**
+- Update ==> `/update_post/{}` ==> **CRUD : UPDATE**
+- Delete ==> `/delete_post/{}` ==> **CRUD : DELETE**
+
+This routes represents the core and main functionalities of this site. Basically, we can:
+
+- List all entries.
+- Create a new Post.
+- Edit a Post.
+- Delete a Post.
+- Search a Post by:
+  - Name
+  - author
+  - category.
+
 ### Git
 
 We will use a basic form of gitflow. This means, having at least 2 branches:
@@ -418,5 +440,8 @@ Hopefully, registered user can Comment with their name.
 Eventually, we want that any registered user can create post.
 Only them should create post. For now, it will be open for everyone.
 Add images to post-entry, as a parameter.
+Use a Boostrap template to make it a little more visually pleasant.
 
 ## Known issues
+
+Not issues for now...
