@@ -1,8 +1,8 @@
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from . import models
-from .forms import CommentForm, CreateBlogPostForm, SearchForm
+from .forms import CommentForm, CreateBlogPostForm, SearchForm, UpdateBlogPostForm
 from .models import BlogPost
 
 
@@ -64,3 +64,16 @@ def search(request):
         form = SearchForm()
     context = {'form': form, 'posts': posts}
     return render(request, 'blog/search.html', context)
+
+
+def update_post(request, pk):
+    post = get_object_or_404(BlogPost, pk=pk)
+    if request.method == 'POST':
+        form = UpdateBlogPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_details', pk=post.pk)
+    else:
+        form = UpdateBlogPostForm(instance=post)
+    context = {'form': form, 'post': post}
+    return render(request, 'blog/update_post.html', context)
