@@ -225,9 +225,85 @@ Home
 Details:
 <img width="500" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/ed3074ed-216c-434a-88eb-a8cb3d40e5c9">
 
+#### 📺 Create Blog View.
+
+It is a little boring to add blog by hand in the admin panel. Eventually, we want that any registered user can create
+post.
+Only them should create post. For now, it will be open for everyone. So lets add a button in the `index.html`
+
+```html
+{% extends 'blog/base.html' %}
+{% block content %}
+
+<h2>Este es el Home</h2>
+
+<ul>
+  {% for post in posts %}
+
+  <li>
+    <a href="{% url 'post_details' post.id %}">{{ post.title }}</a>
+    <p>{{ post.body|truncatechars:200}}</p>
+
+  </li>
+  {% endfor %}
+
+  <button onclick="location.href={% url 'create_post' %}" type="button">Create a New Post</button>
+
+</ul>
+{% endblock %}
+```
+
+Add de form Logic:
+
+##### forms.py
+
+```python
+class CreateBlogPostForm(forms.ModelForm):
+  class Meta:
+    model = BlogPost
+    fields = ['title', 'author', 'body', 'category']
+```
+
+##### views.py
+
+After creation, it will be redirected to the corresponding details.
+
+```python
+def create_blog_post(request):
+  if request.method == 'POST':
+    form = CreateBlogPostForm(request.POST)
+    if form.is_valid():
+      form.save()
+      return redirect('post_details', pk=form.instance.pk)
+  else:
+    form = CreateBlogPostForm()
+  context = {'form': form}
+  return render(request, 'blog/create_post.html', context)
+```
+
+##### New Button in home
+
+<img width="400" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/d136794d-9902-4e15-b4e3-29bb14befee7">
+
+##### Adding a new Post
+
+<img width="400" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/9be105c5-f971-4aa5-9504-9dae1e7005d0">
+
+##### Redirection to Post Details after creation
+
+<img width="400" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/4fdadd02-793f-4f4c-a28d-bcee2960a19e">
+
+##### Home with the new post
+
+<img width="452" alt="image" src="https://github.com/AI-LINGM/bimBlog/assets/160174361/58fba659-fdcc-4407-8b41-18c286f033c5">
+
+##### check these step in this [PR](https://github.com/AI-LINGM/bimBlog/pull/5)
+
 ## Future Improvements
 
 In the next deliver, this project will link the author of a blog post with an auth user.
 Hopefully, registered user can Comment with their name.
+Eventually, we want that any registered user can create post.
+Only them should create post. For now, it will be open for everyone
 
 ## Known issues

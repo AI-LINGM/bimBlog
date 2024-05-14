@@ -8,9 +8,12 @@
 
     <li>
         <a href="{% url 'post_details' post.id %}">{{ post.title }}</a>
-        <p>{{ post.excerpt }}</p>
+        <p>{{ post.body|truncatechars:200}}</p>
 
     </li>
     {% endfor %}
+
+    <button onclick="location.href={% url 'create_post' %}" type="button">Create a New Post</button>
+
 </ul>
 {% endblock %}

@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from . import models
-from .forms import CommentForm
+from .forms import CommentForm, CreateBlogPostForm
 from .models import BlogPost
 
 
@@ -31,3 +31,15 @@ def blog_post_detail(request, pk):
         'form': form,
     }
     return render(request, "blog/post_details.html", context)
+
+
+def create_blog_post(request):
+    if request.method == 'POST':
+        form = CreateBlogPostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('post_details', pk=form.instance.pk)
+    else:
+        form = CreateBlogPostForm()
+    context = {'form': form}
+    return render(request, 'blog/create_post.html', context)
