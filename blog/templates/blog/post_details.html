@@ -1,29 +1,107 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-<h1>{{ post.title }}</h1>
-<p>{{ post.body }}</p>
-<p>Autor: {{ post.author }}</p>
-<p>Categoría: {{ post.category.first }}</p>
+{% load static %}
+<style>
+    .comment {
+    margin-bottom: 20px;
+}
+
+.comment-author {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comment-body {
+    margin-bottom: 10px;
+}
+
+.comment-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+}
+</style>
+<body>
+<main class="blog-post-single">
+    <div class="container">
+        <h1 class="post-title wow fadeInUp">{{ post.title }}</h1>
+        <div class="row">
+            <div class="col-md-8 blog-post-wrapper">
+                <div class="post-header wow fadeInUp">
+                    <img src="{% static 'assets/images/Blog_single/Blog_single@2x.jpg'%}" alt="blog post"
+                         class="post-featured-image">
+                    <p class="post-date">{{ post.created_on }}</p>
+                </div>
+                <div class="post-content wow fadeInUp">
+                    <h4>Why you must experience design at least once</h4>
+                    <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis
+                        enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus
+                        ut, imperdiet a, venenatis vitae, justo. Aliquam lorem ante, dapibus in, viverra quis, feugiat
+                        a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.</p>
+                    <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis
+                        enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus
+                        ut, imperdiet a, venenatis vitae, justo. Aliquam lorem ante, dapibus in, viverra quis, feugiat
+                        a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.</p>
+                    <blockquote class="blockquote wow fadeInUp">
+                        <p>{{ random_quote}}</p>
+                    </blockquote>
+                    <h5>The High-Quality Architecture Solutions from a Silicon Valley.</h5>
+                    <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+                        justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Aliquam lorem ante, dapibus in,
+                        viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque
+                        rutrum.</p>
+                    <h5>Outdoor Work: a Designer’s Checklist for Every UX Project.</h5>
+                    <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat
+                        massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In
+                        enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Aliquam lorem ante, dapibus
+                        in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.
+                        Quisque rutrum.</p>
+                </div>
+                <div class="post-tags wow fadeInUp">
+                    {% for category in post.category.all %}
+                    <a href="#!" class="post-tag">{{ category.name }}</a>
+                    {% empty %}
+                    <p>No categories.</p>
+                    {% endfor %}
+                </div>
+                <div class="post-navigation wow fadeInUp">
+                    <button class="btn prev-post"> Prev Post</button>
+                    <a href="{% url 'post_details' post.pk|add:'1' %}" class="btn next-post">Next Post</a></div>
 
 
-<h2>Comentarios</h2>
+                <div class="comment-section wow fadeInUp">
+                    {% if comments %}
+                    <h5 class="section-title">Comments</h5>
+                    {% for comment in comments %}
+                    <div class="comment">
+                        <h6 class="comment-author">{{ comment.author }}</h6>
+                        <p class="comment-body">{{ comment.body }}</p>
+                        <hr class="comment-divider">
+                    </div>
+                    {% endfor %}
+                    {% else %}
 
-{% if comments %}
-<ul>
-    {% for comment in comments %}
-    <li>
-        <strong>{{ comment.author }}:</strong> {{ comment.body }}
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No hay comentarios para esta entrada.</p>
-{% endif %}
+                    <h5 class="section-title">No comments yet.</h5>
+                    {% endif %}
+                </div>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Enviar comentario</button>
-</form>
+
+                <form method="POST" class="oleez-comment-form">
+                    <h5 class="section-title">Leave a Reply</h5>
+
+                    {% csrf_token %}
+                    {{ form.get_form_html|safe }}
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-submit" style="margin-bottom: 20px;">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
 
 {% endblock %}
