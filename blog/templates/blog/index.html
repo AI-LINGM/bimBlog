@@ -11,16 +11,11 @@
             <div class="col-md-8">
                 {% for post in posts %}
                 <article class="blog-post wow fadeInUp">
-                    <img src='{% static "assets/images/Standard_list_blog/Standard_1@2x.jpg" %}' alt="blog post"
-                         class="post-thumbnail">
+                    <img src='{{ post.image.url }}' alt="blog post" class="post-thumbnail">
                     <p class="post-date">{{post.created_on}}</p>
                     <h4 class="post-title">{{ post.title }}</h4>
-                    <p class="post-excerpt">Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla
-                        consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.
-                        In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Aliquam lorem ante, dapibus in,
-                        viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque
-                        rutrum.</p>
-                    <a href="{% url 'post_details' post.id %}" class="post-permalink">READ MORE</a>
+                    <p class="post-excerpt">{{post.body | truncatechars:400 }} </p>
+                    <a href="{% url 'post_details' post.id %}" class="post-permalink">LEER MÁS</a>
                 </article>
                 {% endfor %}
 

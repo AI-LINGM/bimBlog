@@ -27,36 +27,14 @@
         <div class="row">
             <div class="col-md-8 blog-post-wrapper">
                 <div class="post-header wow fadeInUp">
-                    <img src="{% static 'assets/images/Blog_single/Blog_single@2x.jpg'%}" alt="blog post"
-                         class="post-featured-image">
-                    <p class="post-date">{{ post.created_on }}</p>
+                    <img src="{{ post.image.url }}" alt="blog post" class="post-featured-image">
+
+                    <p class="post-date"> Created by {{ post.author }} on {{ post.created_on }}</p>
                 </div>
                 <div class="post-content wow fadeInUp">
-                    <h4>Why you must experience design at least once</h4>
-                    <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis
-                        enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus
-                        ut, imperdiet a, venenatis vitae, justo. Aliquam lorem ante, dapibus in, viverra quis, feugiat
-                        a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.</p>
-                    <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis
-                        enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus
-                        ut, imperdiet a, venenatis vitae, justo. Aliquam lorem ante, dapibus in, viverra quis, feugiat
-                        a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.</p>
-                    <blockquote class="blockquote wow fadeInUp">
-                        <p>{{ random_quote}}</p>
-                    </blockquote>
-                    <h5>The High-Quality Architecture Solutions from a Silicon Valley.</h5>
-                    <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
-                        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
-                        justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Aliquam lorem ante, dapibus in,
-                        viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque
-                        rutrum.</p>
-                    <h5>Outdoor Work: a Designer’s Checklist for Every UX Project.</h5>
-                    <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat
-                        massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In
-                        enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Aliquam lorem ante, dapibus
-                        in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.
-                        Quisque rutrum.</p>
-                </div>
+
+                    {{ post.body|safe }}
+
                 <div class="post-tags wow fadeInUp">
                     {% for category in post.category.all %}
                     <a href="#!" class="post-tag">{{ category.name }}</a>

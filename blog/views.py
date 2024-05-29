@@ -1,6 +1,3 @@
-import random
-import re
-
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
@@ -11,7 +8,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from .forms import CommentForm, CreateBlogPostForm, SearchForm, UpdateBlogPostForm, CustomAuthenticationForm, \
     CustomUserCreationForm
-from .models import BlogPost, Category, Comment
+from .models import BlogPost, Category, Comment, Author
+from .utils import select_random_quote, format_body
 
 
 def home(request):
@@ -23,7 +21,8 @@ def home(request):
 
     context = {
         'posts': page_obj,
-        'categories': categories
+        'categories': categories,
+
     }
     return render(request, "blog/index.html", context)
 
@@ -33,6 +32,7 @@ def blog_post_detail(request, pk):
         post = BlogPost.objects.get(pk=pk)
         comments = Comment.objects.filter(post=post)
         random_quote = select_random_quote(post.body)
+        post.body = format_body(post.body, random_quote)
 
     except ObjectDoesNotExist:
         return redirect('home')
@@ -54,14 +54,18 @@ def blog_post_detail(request, pk):
         'random_quote': random_quote,
 
     }
+    print(post.image)
     return render(request, "blog/post_details.html", context)
 
 
 def create_blog_post(request):
     if request.method == 'POST':
-        form = CreateBlogPostForm(request.POST)
+        form = CreateBlogPostForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            blog_post = form.save(commit=False)
+            blog_post.author = Author.objects.get(user=request.user)
+            blog_post.save()
+            form.save_m2m()
             return redirect('post_details', pk=form.instance.pk)
     else:
         form = CreateBlogPostForm()
@@ -92,7 +96,7 @@ def search(request):
 def update_post(request, pk):
     post = get_object_or_404(BlogPost, pk=pk)
     if request.method == 'POST':
-        form = UpdateBlogPostForm(request.POST, instance=post)
+        form = UpdateBlogPostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
             return redirect('post_details', pk=post.pk)
@@ -141,9 +145,3 @@ def about(request):
     return render(request, "blog/about.html")
 
 
-def select_random_quote(paragraph):
-    sentences = re.split(r'(?<=[.!?]) +', paragraph)
-
-    random_quote = random.choice(sentences)
-
-    return random_quote

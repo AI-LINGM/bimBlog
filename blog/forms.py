@@ -9,13 +9,13 @@ from .models import Comment, BlogPost, Author, Category
 class CreateBlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
-        fields = ['title', 'author', 'body', 'category']
+        fields = ['title', 'body', 'category', 'image']
 
 
 class UpdateBlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
-        fields = ['title', 'body', 'category']
+        fields = ['title', 'body', 'category', 'image']
 
 
 class CommentForm(forms.ModelForm):

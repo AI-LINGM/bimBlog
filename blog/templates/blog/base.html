@@ -18,14 +18,6 @@
 <header class="oleez-header">
     <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="{% url 'home' %}">BimBlog</a>
-        <ul class="nav nav-actions d-lg-none ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#!" data-toggle="searchModal">
-                    <img src="% static {'assets/images/search.svg' % }" alt="search">
-                </a>
-            </li>
-
-        </ul>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#oleezMainNav"
                 aria-controls="oleezMainNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -49,7 +41,7 @@
 
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">Welcome, {{ user.username }}</a>
+                    <a class="nav-link" href="{% url 'home' %}">Bienvenido, {{ user.username }}</a>
                 </li>
 
                 <li class="nav-item">
@@ -94,7 +86,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h3 class="footer-title">BIMBLOG</h3>
-                    <p class="footer-intro-text">Don't be shy, get in touch with us and create the world again!</p>
+                    <p class="footer-intro-text">Don't be shy, get in touch with us</p>
                     <nav class="footer-social-links">
                         <a href="#!">Fb</a>
                         <a href="#!">Tw</a>
@@ -106,20 +98,17 @@
                     <div class="row">
                         <div class="col-md-6 footer-widget-text">
                             <h6 class="widget-title">PHONE</h6>
-                            <p class="widget-content">+80 (0)5 12 34 95 89</p>
+                            <p class="widget-content">+56 99 456 123</p>
                         </div>
                         <div class="col-md-6 footer-widget-text">
-                            <h6 class="widget-title">ENQUIRUES</h6>
-                            <p class="widget-content">info@oleez.site</p>
+                            <h6 class="widget-title">EMAIL</h6>
+                            <p class="widget-content">info@bimblog.cl</p>
                         </div>
                         <div class="col-md-6 footer-widget-text">
                             <h6 class="widget-title">ADDRESS</h6>
-                            <p class="widget-content">33 rue Burdeau 69089 <br> Paris France</p>
+                            <p class="widget-content">Av. Vitacura 3456 <br> Santiago, Chile</p>
                         </div>
-                        <div class="col-md-6 footer-widget-text">
-                            <h6 class="widget-title">WORK HOURS</h6>
-                            <p class="widget-content">Weekdays: 09:00 - 18:00 <br> Weekends: 11:00 - 17:00</p>
-                        </div>
+
                     </div>
                 </div>
             </div>
