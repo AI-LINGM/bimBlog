@@ -1,0 +1,41 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+{% load static %}
+
+<body>
+
+<main class="about-page">
+    <div class="container">
+        <h1 class="oleez-page-title wow fadeInUp">About Us</h1>
+        <p class="oleez-page-header-content wow fadeInUp">¡Bienvenidos al apasionante mundo de BIM! (Building
+            Information Modeling) Si estás aquí, es porque compartes nuestra fascinación por la innovación en la
+            construcción y el diseño.
+            ¿Listo para sumergirte en un océano de conocimiento sobre las últimas tecnologías y tendencias en BIM?</p>
+        <img src="{% static 'assets/images/About/about@2x.jpg' %}" alt="about" class="w-100 wow fadeInUp">
+        <section class="oleez-about-features">
+            <div class="row">
+                <div class="col-md-4 mb-5 mb-md-0 feature-card wow fadeInUp">
+                    <h4 class="feature-card-title">Imagina</h4>
+                    <p class="feature-card-content">un lugar donde cada clic te acerca más al futuro de la arquitectura,
+                        ingeniería y construcción. Desde las bases de esta revolucionaria metodología hasta las
+                        aplicaciones más vanguardistas que están transformando la industria, aquí encontrarás todo lo
+                        que necesitas saber para mantenerte a la vanguardia. </p>
+                </div>
+                <div class="col-md-4 mb-5 mb-md-0 feature-card wow fadeInUp">
+                    <h5 class="feature-card-title">Queremos</h5>
+                    <p class="feature-card-content">que formes parte de la conversación. Tu opinión importa tanto como
+                        la información que compartimos. Juntos, construiremos un espacio donde el intercambio de ideas y
+                        experiencias enriquezca a toda nuestra comunidad. </p>
+                </div>
+                <div class="col-md-4 mb-5 mb-md-0 feature-card wow fadeInUp">
+                    <h5 class="feature-card-title">Prepárate</h5>
+                    <p class="feature-card-content">para explorar, aprender y debatir. ¡El futuro de la construcción
+                        está en nuestras manos y juntos lo moldearemos en cada entrada!</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+</body>
+
+{% endblock %}

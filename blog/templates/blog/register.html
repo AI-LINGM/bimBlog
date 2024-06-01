@@ -1,0 +1,20 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+Register
+{% endblock title %}
+
+{% block body_title %}
+Nuevo vendedor
+{% endblock body_title %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <button type="submit" class="btn btn-primary ">Registrarse</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary ">Cancelar</a>
+</form>
+{% endblock content %}

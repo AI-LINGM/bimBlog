@@ -1,26 +1,64 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+{% load static %}
 
-<h2>Este es el Home</h2>
 
-<ul>
-    {% for post in posts %}
+<main class="blog-standard">
+    <div class="container">
+        <h1 class="oleez-page-title wow fadeInUp">Ultimas entradas</h1>
 
-    <li>
-        <a href="{% url 'post_details' post.id %}">{{ post.title }}</a>
-        <button onclick="window.location.href='{% url 'update_post' post.id %}'" type="button">Update</button>
-        <button onclick="window.location.href='{% url 'delete_post' post.id %}'" type="button"
-                style="background-color: red; color: white;">
-            Delete
-        </button>
+        <div class="row">
+            <div class="col-md-8">
+                {% for post in posts %}
+                <article class="blog-post wow fadeInUp">
+                    <img src='{{ post.image.url }}' alt="blog post" class="post-thumbnail">
+                    <p class="post-date">{{post.created_on}}</p>
+                    <h4 class="post-title">{{ post.title }}</h4>
+                    <p class="post-excerpt">{{post.body | truncatechars:400 }} </p>
+                    <a href="{% url 'post_details' post.id %}" class="post-permalink">LEER MÁS</a>
+                </article>
+                {% endfor %}
 
-        <p>{{ post.body|truncatechars:200}}</p>
+                <nav class="oleez-pagination wow fadeInUp">
 
-    </li>
-    {% endfor %}
 
-    <button onclick="location.href={% url 'create_post' %}" type="button">Create a New Post</button>
-    <button onclick="location.href={% url 'search' %}" type="button">Search</button>
+                    {% for page_num in posts.paginator.page_range %}
+                    {% if page_num == posts.number %}
+                    <a class="active">{{ page_num }}</a>
+                    {% else %}
+                    <a href="?page={{ page_num }}">{{ page_num }}</a>
+                    {% endif %}
+                    {% endfor %}
 
-</ul>
+
+                </nav>
+            </div>
+            <div class="col-md-4">
+                <div class="sidebar-widget wow fadeInUp">
+                    <h5 class="widget-title">Categories</h5>
+                    <div class="widget-content">
+                        {% for category in categories %}
+
+                        <a href="#!" class="post-tag">{{ category.name }}</a>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="sidebar-widget wow fadeInUp">
+                    <h5 class="widget-title">Share</h5>
+                    <div class="widget-content">
+                        <nav class="social-links">
+                            <a href="#!">Fb</a>
+                            <a href="#!">Tw</a>
+                            <a href="#!">In</a>
+                            <a href="#!">Be</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
 {% endblock %}

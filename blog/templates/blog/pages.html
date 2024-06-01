@@ -1,0 +1,32 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+{% load static %}
+
+<body>
+<main class="portfolio-grid-page">
+    <div class="container">
+        <h1 class="oleez-page-title">Blog List</h1>
+
+        <div class="row">
+            {% for post in posts %}
+
+            <div class="col-md-4 portfolio-card wow fadeInUp">
+                <div class="project-thumbnail-wrapper">
+                    <img src="{% static 'assets/images/Standard_list_blog/Standard_1@2x.jpg' %}" alt="portffolio"
+                         class="project-thumbnail">
+                </div>
+                <h5 class="project-name">{{ post.title }}</h5>
+                <div class="post-actions">
+                    <a href="{% url 'update_post' post.id %}" class="btn btn-primary btn-m">Update</a>
+                    <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-m">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+
+
+</body>
+
+{% endblock %}

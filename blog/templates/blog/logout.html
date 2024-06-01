@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">You have been logged out</h4>
+        <p>Gracias por su visita!</p>
+        <hr>
+        <p class="mb-0">Te gustaría <a href="{% url 'login' %}" class="alert-link">logearte nuevamente</a>?</p>
+    </div>
+</div>
+
+{% endblock %}
