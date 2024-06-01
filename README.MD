@@ -7,6 +7,10 @@ Creator: Ai-Ling González Mac
 ## What is the project About
 This is a blog that contains about BIM.
 
+##  🎞️ There's a link below redirecting to the Video.
+➡️➡️➡️ [CLICK HERE TO WATCH THE VIDEO](https://drive.google.com/drive/folders/17wEmyLdGkSZRbt4you1DWxckoTl2_UvH)
+
+
 ## Technical Description
 
 ### TL;DR
