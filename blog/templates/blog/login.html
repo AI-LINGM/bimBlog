@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+
+    </table>
+
+    <button type="submit" class="btn btn-primary">Ingresar</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary"> Cancelar</a>
+</form>
+
+{% endblock %}

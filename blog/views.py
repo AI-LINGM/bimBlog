@@ -1,21 +1,41 @@
+from django.contrib.auth.views import LoginView
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
 from django.db.models import Q
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from . import models
-from .forms import CommentForm, CreateBlogPostForm, SearchForm, UpdateBlogPostForm
-from .models import BlogPost
+from .forms import CommentForm, CreateBlogPostForm, SearchForm, UpdateBlogPostForm, CustomAuthenticationForm, \
+    CustomUserCreationForm
+from .models import BlogPost, Category, Comment, Author
+from .utils import select_random_quote, format_body
 
 
 def home(request):
     posts = models.BlogPost.objects.all()
+    categories = Category.objects.all()
+    paginator = Paginator(posts, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'posts': posts,
+        'posts': page_obj,
+        'categories': categories,
+
     }
     return render(request, "blog/index.html", context)
 
 
 def blog_post_detail(request, pk):
-    post = BlogPost.objects.get(pk=pk)
+    try:
+        post = BlogPost.objects.get(pk=pk)
+        comments = Comment.objects.filter(post=post)
+        random_quote = select_random_quote(post.body)
+        post.body = format_body(post.body, random_quote)
+
+    except ObjectDoesNotExist:
+        return redirect('home')
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -23,22 +43,29 @@ def blog_post_detail(request, pk):
             comment = form.save(commit=False)
             comment.post = post
             comment.save()
-
+            comments = Comment.objects.filter(post=post)
     else:
         form = CommentForm()
 
     context = {
         'post': post,
         'form': form,
+        'comments': comments,
+        'random_quote': random_quote,
+
     }
+    print(post.image)
     return render(request, "blog/post_details.html", context)
 
 
 def create_blog_post(request):
     if request.method == 'POST':
-        form = CreateBlogPostForm(request.POST)
+        form = CreateBlogPostForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            blog_post = form.save(commit=False)
+            blog_post.author = Author.objects.get(user=request.user)
+            blog_post.save()
+            form.save_m2m()
             return redirect('post_details', pk=form.instance.pk)
     else:
         form = CreateBlogPostForm()
@@ -69,7 +96,7 @@ def search(request):
 def update_post(request, pk):
     post = get_object_or_404(BlogPost, pk=pk)
     if request.method == 'POST':
-        form = UpdateBlogPostForm(request.POST, instance=post)
+        form = UpdateBlogPostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
             return redirect('post_details', pk=post.pk)
@@ -86,3 +113,35 @@ def delete_post(request, pk):
         return redirect("home")
     context = {'post': post}
     return render(request, 'blog/delete_post.html', context)
+
+
+class LoginBlogView(LoginView):
+    authentication_form = CustomAuthenticationForm
+    template_name = "blog/login.html"
+
+
+def register(request: HttpRequest) -> HttpResponse:
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            form.save()
+            return render(request, "blog/index.html", {"mensaje": f"Usuario '{username}' creado"})
+    else:
+        form = CustomUserCreationForm()
+    return render(request, "blog/register.html", {"form": form})
+
+
+def pages(request):
+    posts = models.BlogPost.objects.all()
+
+    context = {
+        'posts': posts,
+    }
+    return render(request, "blog/pages.html", context)
+
+
+def about(request):
+    return render(request, "blog/about.html")
+
+

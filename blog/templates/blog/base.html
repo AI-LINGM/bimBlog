@@ -5,23 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BIM Blog</title>
 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link href="{% static 'assets/css/style.css'%}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'assets/vendors/fancybox/jquery.fancybox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/animate.css/animate.min.css' %}">
+    <script src="{% static 'assets/vendors/jquery/jquery.min.js' %}"></script>
+
+
 </head>
 <body>
-<header>
-    <h1>BIM Blog</h1>
-    <nav>
-        <ul>
+<header class="oleez-header">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="{% url 'home' %}">BimBlog</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#oleezMainNav"
+                aria-controls="oleezMainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="oleezMainNav">
+            <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
+                </li>
 
-        </ul>
+            </ul>
+            <ul class="navbar-nav d-none d-lg-flex">
+                <li class="nav-item active">
+                    <a class="nav-link nav-link-btn" href="{% url 'search' %}" data-toggle="searchModal">
+                        <img src='{% static "assets/images/search.svg" %}' alt="search">
+                    </a>
+                </li>
+
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Bienvenido, {{ user.username }}</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create_post' %}">Post</a>
+                </li>
+
+                {% if user.is_staff %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'pages' %}">Pages</a>
+                </li>
+
+                {% endif %}
+
+                <li class="nav-item">
+                    <form class="nav-link" action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-dark btn-sm">Logout</button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
 </header>
+
 
 <main>
     {% block content %}{% endblock %}
 </main>
 
-<footer>
-    <p>&copy; 2024 BIM Blog. Todos los derechos reservados.</p>
+<footer class="oleez-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="footer-title">BIMBLOG</h3>
+                    <p class="footer-intro-text">Don't be shy, get in touch with us</p>
+                    <nav class="footer-social-links">
+                        <a href="#!">Fb</a>
+                        <a href="#!">Tw</a>
+                        <a href="#!">In</a>
+                        <a href="#!">Be</a>
+                    </nav>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6 footer-widget-text">
+                            <h6 class="widget-title">PHONE</h6>
+                            <p class="widget-content">+56 99 456 123</p>
+                        </div>
+                        <div class="col-md-6 footer-widget-text">
+                            <h6 class="widget-title">EMAIL</h6>
+                            <p class="widget-content">info@bimblog.cl</p>
+                        </div>
+                        <div class="col-md-6 footer-widget-text">
+                            <h6 class="widget-title">ADDRESS</h6>
+                            <p class="widget-content">Av. Vitacura 3456 <br> Santiago, Chile</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-text">
+            <p class="mb-md-0">© 2024 BIM Blog. <a href=""
+                                                   target="_blank"
+                                                   rel="noopener noreferrer"
+                                                   class="text-reset">Ai-Ling G</a>.</p>
+            <p class="mb-0">Todos los derechos reservados.</p>
+        </div>
+    </div>
 </footer>
+
+<nav id="offCanvasMenu" class="off-canvas-menu">
+    <button type="button" class="close" aria-label="Close" data-dismiss="offCanvasMenu">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <ul class="oleez-social-menu">
+        <li>
+            <a href="#!" class="oleez-social-menu-link">Facebook</a>
+        </li>
+        <li>
+            <a href="#!" class="oleez-social-menu-link">Instagram</a>
+        </li>
+        <li>
+            <a href="#!" class="oleez-social-menu-link">Behance</a>
+        </li>
+        <li>
+            <a href="#!" class="oleez-social-menu-link">Dribbble</a>
+        </li>
+        <li>
+            <a href="#!" class="oleez-social-menu-link">Email</a>
+        </li>
+    </ul>
+</nav>
+<!-- Full screen search box -->
+<div id="searchModal" class="search-modal">
+    <button type="button" class="close" aria-label="Close" data-dismiss="searchModal">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <form action="index.html" method="get" class="oleez-overlay-search-form">
+        <label for="search" class="sr-only">Search</label>
+        <input type="search" class="oleez-overlay-search-input" id="search" name="search" placeholder="Search here">
+    </form>
+</div>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
 </body>
+
+
 </html>
